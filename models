@@ -1,0 +1,15 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+import joblib
+
+df = pd.read_csv("data/fish_sensor_data.csv")
+X = df[["temp_c", "ph", "ammonia_mg_l", "do_mg_l"]]
+y = df["failure_risk"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+joblib.dump(model, "models/farm_failure_model.pkl")
